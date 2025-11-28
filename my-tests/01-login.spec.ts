@@ -9,11 +9,11 @@ enum userType {
 const password: string = "secret_sauce"
 
 test.beforeEach(async ({ page }, testInfo) => {
-    console.log('>>> Start to run -> ', testInfo.title)
+    console.log('>>> Str to -------> ', testInfo.title)
 });
 
 test.afterEach(async ({ page }, testInfo) => {
-    console.log('=== End of -------> ', testInfo.title)
+    console.log('=== End of =======> ', testInfo.title)
 });
 
 test.describe('No session', () => {
