@@ -1,5 +1,4 @@
 import {test, expect } from '@playwright/test'
-import { count } from 'console';
 
 test.beforeEach(async ({ page }, testInfo) => {
     console.log('>>> Start to run -> ', testInfo.title)
