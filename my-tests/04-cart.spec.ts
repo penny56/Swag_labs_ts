@@ -27,7 +27,7 @@ test.describe('With session', () => {
         const badgeIcon = page.locator('[data-test="shopping-cart-badge"]')
         await expect(badgeIcon).toBeVisible()
         const cartCount = parseInt(await badgeIcon.textContent() || '0', 10)
-        expect(cartCount == 2)
+        expect(cartCount).toBe(2)
 
         // 进入cart
         await page.locator('.shopping_cart_link').click()

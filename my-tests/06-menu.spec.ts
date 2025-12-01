@@ -60,9 +60,8 @@ test.describe('With session', () => {
 
         // 3. Logout → 返回登录页
         await page.getByRole('button', {name: 'Open Menu'}).click()
-        await page.getByRole('link', {name: 'About'}).click()
+        await page.getByRole('link', {name: 'Logout'}).click()
 
-        // 为什么这里会返回到这个url，而不是 https://www.saucedemo.com/
-        await expect(page).toHaveURL('https://saucelabs.com/')
+        await expect(page).toHaveURL('https://www.saucedemo.com/')
     });
 });
