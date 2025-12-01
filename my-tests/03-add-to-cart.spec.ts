@@ -21,7 +21,6 @@ test.describe('With session', () => {
 
     test('3.1 add products', async({ page }) => {
 
-        // 1. 列表页添加 1 个商品，购物车徽标数量应更新
         let initCount = 0
         let badgeIcon = page.locator('[data-test="shopping-cart-badge"]')
 
@@ -32,6 +31,7 @@ test.describe('With session', () => {
             initCount = parseInt(await badgeIcon.textContent() || '0', 10)
         }
 
+        // 1. 列表页添加 1 个商品，购物车徽标数量应更新
         const addButtons = page.getByRole('button', {name: 'Add to cart'})
 
         await addButtons.nth(0).click()

@@ -22,8 +22,7 @@ test.describe('With session', () => {
     test('2.1 inventory page verification', async({ page }) => {
 
         // 1. total 6 products in this page
-        const inventoryList = page.locator('[data-test="inventory-list"]')
-        const inventoryItems = inventoryList.locator('[data-test="inventory-item"]')
+        const inventoryItems = page.locator('[data-test="inventory-list"]').locator('[data-test="inventory-item"]')
         await expect(inventoryItems).toHaveCount(6)
 
         // 2. 每个产品是否显示图片、名称、价格
@@ -44,8 +43,7 @@ test.describe('With session', () => {
 
     test('2.2 inventory page sort', async({ page }) => {
 
-        const inventoryList = page.locator('[data-test="inventory-list"]')
-        const inventoryItems = inventoryList.locator('[data-test="inventory-item"]')
+        const inventoryItems = page.locator('[data-test="inventory-list"]').locator('[data-test="inventory-item"]')
 
         // 1. 按名称 A→Z
         const sortDropDown = page.locator('[data-test="product-sort-container"]')
@@ -85,15 +83,24 @@ test.describe('With session', () => {
     test('2.3 inventory page details', async({ page }) => {
         
         const firstProduct = page.locator('[data-test="inventory-list"]').locator('[data-test="inventory-item"]').first()
+        const firstProductName = await firstProduct.locator('[data-test="inventory-item-name"]').textContent() ?? ''
 
         // 1. 点击产品标题跳转到详情页
         await firstProduct.locator('[data-test="inventory-item-name"]').click()
-        await expect(page).toHaveURL(/id=/);
+
+        // 验证url正确
+        await expect(page).toHaveURL(/id=/)
+
+        // 验证商品名正确
+        let detailsProductName = await page.locator('[data-test="inventory-item-name"]').textContent() ?? ''
+        expect(detailsProductName).toEqual(firstProductName)
 
         // 2. 点击产品图片也应跳转
         await page.goBack()
         await firstProduct.locator('img.inventory_item_img').click()
         await expect(page).toHaveURL(/id=/)
+        detailsProductName = await page.locator('[data-test="inventory-item-name"]').textContent() ?? ''
+        expect(detailsProductName).toEqual(firstProductName)
 
         // 3. 返回列表功能 Back to products 正常
         await page.getByRole('button', {name: 'Back to products'}).click()

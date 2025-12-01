@@ -26,19 +26,14 @@ test.describe('No session', () => {
         await expect(page).toHaveTitle(/Swag Labs/);
     });
 
-
     test('1.1 login success', async ({ page }) => {
-        const context = page.context()
 
         await page.locator('#user-name').fill(userType.normalUser)
         await page.locator('#password').fill(password)
         
         await page.locator('#login-button').click()
 
-        await expect(page).toHaveURL(/.*inventory\.html/)
-
-        // not store state.json here for the session already done in global-setup.ts
-        // await context.storageState({path: './state.json'})
+        await expect(page.locator('span[data-test="title"]')).toHaveText("Products")
 
     });
 
@@ -49,9 +44,9 @@ test.describe('No session', () => {
 
         await page.locator('#login-button').click()
 
-        const err = page.locator('[data-test="error"]');
-        await expect(err).toBeVisible();
-        await expect(err).toContainText('Epic sadface: Username is required');
+        const err = page.locator('[data-test="error"]')
+        await expect(err).toBeVisible()
+        await expect(err).toContainText('Epic sadface: Username is required')
 
     });
 
@@ -62,9 +57,9 @@ test.describe('No session', () => {
 
         await page.locator('#login-button').click()
 
-        const err = page.locator('[data-test="error"]');
-        await expect(err).toBeVisible();
-        await expect(err).toContainText('Epic sadface: Password is required');
+        const err = page.locator('[data-test="error"]')
+        await expect(err).toBeVisible()
+        await expect(err).toContainText('Epic sadface: Password is required')
 
     });
 
@@ -75,9 +70,9 @@ test.describe('No session', () => {
 
         await page.locator('#login-button').click()
 
-        const err = page.locator('[data-test="error"]');
-        await expect(err).toBeVisible();
-        await expect(err).toContainText('Epic sadface: Username is required');
+        const err = page.locator('[data-test="error"]')
+        await expect(err).toBeVisible()
+        await expect(err).toContainText('Epic sadface: Username is required')
 
     });
 
@@ -89,8 +84,8 @@ test.describe('No session', () => {
         await page.locator('#login-button').click()
 
         const err = page.locator('[data-test="error"]')
-        await expect(err).toBeVisible();
-        await expect(err).toContainText('Epic sadface: Username and password do not match any user in this service');
+        await expect(err).toBeVisible()
+        await expect(err).toContainText('Epic sadface: Username and password do not match any user in this service')
 
     });
 
@@ -101,13 +96,13 @@ test.describe('No session', () => {
 
         await page.locator('#login-button').click()
 
-        const err = page.locator('[data-test="error"]');
-        await expect(err).toBeVisible();
-        await expect(err).toContainText('Epic sadface: Sorry, this user has been locked out');
+        const err = page.locator('[data-test="error"]')
+        await expect(err).toBeVisible()
+        await expect(err).toContainText('Epic sadface: Sorry, this user has been locked out')
 
     });
 
-    // 还有 problem_user / error_user，情况复杂
+    // 还有 problem_user / error_user，情况复杂，放在case10讨论。
 });
 
 

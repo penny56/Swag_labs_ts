@@ -44,11 +44,11 @@ test.describe('With session', () => {
 
         // cart商品数
         const badgeIcon = page.locator('[data-test="shopping-cart-badge"]')
+        // 要显示
         await expect(badgeIcon).toBeVisible()
-        const cartCount = parseInt(await badgeIcon.textContent() || '0', 10)
-
         // 要相等
-        expect(itemCount == cartCount)
+        expect(parseInt(await badgeIcon.textContent() || '0', 10)).toEqual(itemCount)
+
 
         // 2. 显示商品名称、价格、数量等信息
         for (let i = 0; i < itemCount; i++) {
@@ -63,8 +63,7 @@ test.describe('With session', () => {
         await inventoryItems.nth(0).getByRole('button', {name: 'Remove'}).click()
 
         // list数量-1
-        const afterRemoveCount = await page.locator('[data-test="inventory-item"]').count()
-        expect(afterRemoveCount == itemCount-1)
+        await expect(page.locator('[data-test="inventory-item"]')).toHaveCount(itemCount-1)
     });
 
     test('4.2 cart actions correctly', async({ page }) => {
@@ -72,10 +71,12 @@ test.describe('With session', () => {
         // 1. 点击 Continue Shopping 返回商品列表
         await page.getByRole('button', {name: 'Continue Shopping'}).click()
         await expect(page).toHaveURL(/.*inventory\.html/)
+        await expect(page.locator('span[data-test="title"]')).toHaveText("Products")
         await page.goBack()
 
         // 2. 点击 Checkout 进入结账流程
         await page.getByRole('button', {name: 'Checkout'}).click()
         await expect(page).toHaveURL(/.*checkout-step-one\.html/)
+        await expect(page.locator('span[data-test="title"]')).toHaveText("Checkout: Your Information")
     });
 });

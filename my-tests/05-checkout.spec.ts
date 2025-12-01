@@ -36,6 +36,7 @@ test.describe('With session', () => {
         // 点击 Checkout 进入结账流程
         await page.getByRole('button', {name: 'Checkout'}).click()
         await expect(page).toHaveURL(/.*checkout-step-one\.html/)
+        await expect(page.locator('span[data-test="title"]')).toHaveText("Checkout: Your Information")
     });
 
     // checkout 流程是串行的，就放在一个 test case 里就好
@@ -49,6 +50,7 @@ test.describe('With session', () => {
         await page.getByPlaceholder('Zip/Postal Code').fill('100000')
         await page.locator('#continue').click()
         await expect(page).toHaveURL(/.*checkout-step-two\.html/)
+        await expect(page.locator('span[data-test="title"]')).toHaveText("Checkout: Overview")
 
         // 三项任意一项为空 → 提示相应错误
 
@@ -77,7 +79,7 @@ test.describe('With session', () => {
         const totalFloat = parseFloat(totalText.split('$')[1] ?? "0")      
         
         // 验证
-        expect(totalFloat == cartSum+taxFloat)
+        expect(totalFloat).toEqual(cartSum+taxFloat)
 
         // 5.3 Step Three：订单完成页面
 
@@ -90,5 +92,6 @@ test.describe('With session', () => {
         // Back Home 跳回首页
         await page.locator('#back-to-products').click()
         await expect(page).toHaveURL(/.*inventory\.html/)
+        await expect(page.locator('span[data-test="title"]')).toHaveText("Products")
     });
 });
