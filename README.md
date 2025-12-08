@@ -1,3 +1,5 @@
+Use global-setup.ts to make the login session for each playwright running.
+
 # 🚀 软件测试用例 (Test Cases)
 
 ## 1. 登录模块 (Login)
