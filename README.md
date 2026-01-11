@@ -1,3 +1,5 @@
+Use global-setup.ts to make the login session for each playwright running.
+
 # 🚀 软件测试用例 (Test Cases)
 
 ## 1. 登录模块 (Login)
@@ -107,3 +109,65 @@
 * 商品排序失败
 * 详情页返回按钮异常
 * （面试常问：如何写 Playwright 断言识别这些异常）
+
+
+## ✅ 10. Problem User / Glitch User 常见异常 & 对应 Test Scenarios
+
+以下 4 大类异常是 SauceDemo 面试最常问的：
+
+### A. 图片加载失败 (Image loading issue)
+
+#### Case 1：商品列表页图片加载失败
+* **Steps:**
+    1. 登录 `problem_user`。
+    2. 进入 Products 页面。
+    3. 定位所有商品图片 `<img>` 元素。
+* **断言 (Assertions):**
+    * 某些图片的 `src` 属性值不正确。
+    * 断言图片请求失败或加载失败（如 `img.complete = false` 或 `naturalWidth = 0`）。
+
+#### Case 2：商品详情页图片加载失败
+* **Steps:**
+    1. 登录 `problem_user`。
+    2. 进入任一商品的详情页。
+* **断言 (Assertions):**
+    * 检查并断言主图片加载状态为失败。
+
+### B. Add to cart 按钮顺序混乱
+
+#### Case 1：按钮与商品名称不匹配
+* **Steps:**
+    1. 登录 `problem_user`。
+    2. 获取页面上所有商品名称的列表（顺序）。
+    3. 获取页面上所有 "Add to Cart" 按钮的列表。
+* **断言 (Assertions):**
+    * 断言按钮的顺序与商品列表的顺序不一致。
+
+#### Case 2：同一商品点击 Add to Cart 后状态异常
+* **Steps:**
+    1. 登录 `problem_user`。
+    2. 点击某商品对应的 "Add to Cart" 按钮。
+    3. 检查购物车 Badge 数量是否正确增加 `+1`。
+    4. 刷新页面。
+* **断言 (Assertions):**
+    * 断言购物车 Badge 数量没有增加（Bug 表现）。
+    * 断言刷新页面后，商品状态被意外重置或丢失（Bug 表现）。
+
+### C. 商品排序失败
+
+#### Case 1：名称排序 A → Z 失败
+* **Steps:**
+    1. 登录 `problem_user`。
+    2. 设置 Sort 下拉框选项为 **A to Z** (Name (A to Z))。
+    3. 获取所有商品名称的文本内容。
+* **断言 (Assertions):**
+    * 断言获取到的名称列表的实际顺序 **不等于** 预期排好序的列表。
+
+#### Case 2：价格排序 Low → High 失败
+* **Steps:**
+    1. 登录 `problem_user`。
+    2. 切换 Sort 下拉框选项为 **Low to High** (Price (low to high))。
+    3. 获取所有商品的价格文本。
+    4. 将价格文本解析并转换为浮点数。
+* **断言 (Assertions):**
+    * 断言转换后的浮点数列表 **不是** 严格的升序排列。
