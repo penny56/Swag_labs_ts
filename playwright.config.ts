@@ -1,9 +1,4 @@
 import { defineConfig, devices } from '@playwright/test';
-import { fileURLToPath } from 'url';
-import path from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 /**
  * Read environment variables from file.
@@ -20,8 +15,7 @@ export default defineConfig({
   // 每次执行要跑global-setup.ts并创建新session以防止timeout
   // 但是并没有use: {storageState: './storageState.json'}
   // 是否需要使用 storageState 放在 test.describe() 由具体情况来定
-  // globalSetup: './my-tests/global-setup.ts',
-  globalSetup: path.join(__dirname, 'my-tests/global-setup.ts'),
+  globalSetup: './my-tests/global-setup.ts',
 
   testDir: './my-tests',
   /* Run tests in files in parallel */
